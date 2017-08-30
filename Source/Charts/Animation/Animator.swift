@@ -39,6 +39,12 @@ open class Animator: NSObject
     /// the phase that is animated and influences the drawn values on the y-axis
     @objc open var phaseY: Double = 1.0
     
+    /// animation progress in percent of the x-axis animation
+    open var progressX: Double = 0
+    
+    /// animation progress in percent of the y-axis animation
+    open var progressY: Double = 0
+    
     private var _startTimeX: TimeInterval = 0.0
     private var _startTimeY: TimeInterval = 0.0
     private var _displayLink: NSUIDisplayLink?
@@ -102,7 +108,8 @@ open class Animator: NSObject
                 elapsed = duration
             }
            
-            phaseX = _easingX?(elapsed, duration) ?? elapsed / duration
+            progressX = Double(elapsed / duration)
+            phaseX = _easingX?(elapsed, duration) ?? progressX
         }
         
         if _enabledY
@@ -115,7 +122,8 @@ open class Animator: NSObject
                 elapsed = duration
             }
 
-            phaseY = _easingY?(elapsed, duration) ?? elapsed / duration
+            progressY = Double(elapsed / duration)
+            phaseY = _easingY?(elapsed, duration) ?? progressY
         }
     }
     
